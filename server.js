@@ -29,7 +29,11 @@ let urlFirstHalf = "https://classes.oregonstate.edu/?keyword="
 let urlSecondHalf = "&srcdb=999999"
 
 
-let timeBetweenChecks = 900000   //in milliseconds. Currently will check once every fifteen minutes
+
+let secondsInADay = 86400
+let millisecondInADay = 1000 * secondsInADay;
+let checksPerDay = 8;
+let timeBetweenChecks = millisecondInADay/checksPerDay;
 
 var app = express();
 
@@ -68,6 +72,9 @@ function sendErrorEmail(){
 //thank god for stack overflow
 //https://stackoverflow.com/questions/6156501/read-a-file-one-line-at-a-time-in-node-js
 //
+
+var currentTime;
+
 async function lookForClass(){
     const fileStream = fs.createReadStream(path.join(__dirname,'/allCSCRNs.txt'));
     const rl = readline.createInterface({
@@ -77,6 +84,10 @@ async function lookForClass(){
    // Note: we use the crlfDelay option to recognize all instances of CR LF
   // ('\r\n') in input.txt as a single line break.
     var wait = 0;
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(); 
+    currentTime = date + ' ' + time;
     for await (const line of rl) {
     // Each line in input.txt will be successively available here as `line`.
         //initializeFile(line);
@@ -85,6 +96,8 @@ async function lookForClass(){
        
 
     }
+    setTimeout(lookForClass,timeBetweenChecks);
+    
 }
 
 function initializeFile(line){
@@ -132,10 +145,8 @@ function updateDataForClass(line,wait){
     
 }
 function updateFile(seatsLeft,crn){
-    var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var totalPrompt = date + ' ' + time + '=' + String(seatsLeft) + '\n';
+    
+    var totalPrompt = currentTime + '=' + String(seatsLeft) + '\n';
     fs.appendFile(path.join(__dirname,'/resultsFolder',String(crn)+".csv"),totalPrompt,
     {},(err)=>{
        if(err){
