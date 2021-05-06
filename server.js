@@ -46,6 +46,10 @@ app.listen(PORT, function () {
     console.log("listening on port " + PORT); //don't start listening until connected.
 })
 
+app.get('/',(req,res)=>{
+    res.send('Hello There!');
+})
+
 
 
 
