@@ -1,0 +1,31 @@
+{
+  "name": "creategraphofclasses",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JacobEckroth/GraphCSClasses.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JacobEckroth/GraphCSClasses/issues"
+  },
+  "homepage": "https://github.com/JacobEckroth/GraphCSClasses#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "console": "^0.7.2",
+    "dns": "^0.2.2",
+    "express": "^4.17.1",
+    "jsdom": "^16.5.3",
+    "nodemailer": "^6.6.0",
+    "puppeteer": "^9.1.1",
+    "readline": "^1.3.0"
+  }
+}

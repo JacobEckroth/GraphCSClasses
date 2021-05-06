@@ -1,4 +1,3 @@
-26
 CS 101,Computers: Applications and Implications,10289
 CS 160,Introduction To Computer Science 1,15871
 CS 161,Introduction To Computer Science 1,14190
