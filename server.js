@@ -37,6 +37,15 @@ let timeBetweenChecks = millisecondInADay/checksPerDay;
 
 var app = express();
 
+//READ THE README.MD IF THIS ISN"T WORKING!!!!
+//or go here https://stackoverflow.com/questions/45478293/username-and-password-not-accepted-when-using-nodemailer
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: emailToSendFrom,
+      pass: emailPassword
+    }
+  });
 
 app.use(bodyParser.json({
     limit: '50mb'
@@ -69,8 +78,8 @@ function startListeningForClass(){
     lookForClass()
 }
 
-function sendErrorEmail(){
-    console.log("this is where I would send an error.... if I had one!!!")
+function sendErrorEmail(err){
+    sendEmail("Error in Graph Creator","There's an error:" + err);
 }
 
 //thank god for stack overflow
@@ -95,8 +104,8 @@ async function lookForClass(){
     for await (const line of rl) {
     // Each line in input.txt will be successively available here as `line`.
         //initializeFile(line);
-        updateDataForClass(line,wait);
-        wait += 10000;
+       updateDataForClass(line,wait);
+       wait += 10000;
        
 
     }
@@ -110,7 +119,9 @@ function initializeFile(line){
     var nextLine = 'Time,Seats Left\n'
     writeLine += nextLine;
     fs.writeFile(path.join(__dirname,resultsFolderPath,stringParts[2]+'.csv'),writeLine,(err)=>{
-        if(err) throw err;
+        if(err){
+            sendErrorEmail(err);
+        }
         console.log("wrote file");
     })
 }
@@ -154,7 +165,7 @@ function updateFile(seatsLeft,crn){
     fs.appendFile(path.join(__dirname,'/resultsFolder',String(crn)+".csv"),totalPrompt,
     {},(err)=>{
        if(err){
-           sendErrorEmail();
+           sendErrorEmail(err);
        }
     });   
 }
@@ -206,24 +217,16 @@ function getData() {
 }
 
 
-//READ THE README.MD IF THIS ISN"T WORKING!!!!
-//or go here https://stackoverflow.com/questions/45478293/username-and-password-not-accepted-when-using-nodemailer
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: emailToSendFrom,
-      pass: emailPassword
-    }
-  });
 
 
 
-function sendEmail(){
+
+function sendEmail(emailSubject,emailText){
     var mailOptions = {
         from: emailToSendFrom,
         to: emailToSendTo,
-        subject: className + ": " + spacesLeft + ' Spaces Left',
-        text: className + " has "+spacesLeft+' Spaces Left'
+        subject: emailSubject,
+        text: emailText
       };
     transporter.sendMail(mailOptions, function(error, info){
     if (error) {
