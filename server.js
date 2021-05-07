@@ -170,56 +170,6 @@ function updateFile(seatsLeft,crn){
     });   
 }
     
-function getData() {
-    (async () => {
-        const browser = await puppeteer.launch();
-        const page = await browser.newPage();
-        await page.goto(url);
-        await page.waitForSelector('.panel__body') //when this loads I know that the classes are loaded.
-
-
-        //let bodyHTML =  await page.evaluate(()=>  document.querySelector('.panel__body').innerHTML);
-        const element = await page.waitForSelector('.result');
-        await element.click()
-        
-        await page.waitForSelector(".detail-ssbsect_seats_avail");
-        
-        const result = await page.evaluate(()=> document.querySelector('.detail-ssbsect_seats_avail').textContent);  
-   
-        let splitResult = result.split(':')
-     
-        let fixedResult = Number(splitResult[1].substr(1))
-        spacesLeft = fixedResult;
-        console.log(fixedResult);
-        console.log("Email last sent at: " + lastEmailSentAt + " Spaces")
-
-        if(firstTime){
-            sendEmail()
-            lastEmailSentAt = spacesLeft;
-            firstTime = false
-        }
-   
-
-
-
-        if(spacesLeft <= lastEmailSentAt -changeToUpdateAt){
-            lastEmailSentAt = spacesLeft
-            sendEmail();
-        }else if(spacesLeft <= panicMode && lastEmailSentAt != spacesLeft){
-            timeBetweenChecks = panicTime
-            lastEmailSentAt = spacesLeft
-            sendEmail();
-        }
-   
-        await browser.close();
-    })();
-   
-}
-
-
-
-
-
 
 function sendEmail(emailSubject,emailText){
     var mailOptions = {
