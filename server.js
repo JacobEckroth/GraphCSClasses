@@ -104,7 +104,7 @@ async function lookForClass(){
     for await (const line of rl) {
     // Each line in input.txt will be successively available here as `line`.
         //initializeFile(line);
-       updateDataForClass(line,wait);
+     updateDataForClass(line,wait);
        wait += 10000;
        
 
