@@ -1,6 +1,4 @@
 CS 101,Computers: Applications and Implications,10289
-CS 160,Introduction To Computer Science 1,15871
-CS 161,Introduction To Computer Science 1,14190
 CS 162,Introduction To Computer Science 2,14196
 CS 162,Introduction To Computer Science 2,20150
 CS 261,Data Structures,10572
@@ -22,5 +20,6 @@ CS 453,Scientific Visualization,16844
 CS 461,Senior Software Engineering Project,12349
 CS 468,Inclusive Design (HCI),16212
 CS 472,Computer Architecture,12542
+CS 491,Computer Science Skills for Simulation and Game Programming,20313
 CS 499,Special Topics: ST/Computer Graphics,20163
 CS 499,Special Topics:ST/ Cyber Attacks & Defense,20158

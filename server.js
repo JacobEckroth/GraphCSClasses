@@ -32,7 +32,7 @@ let urlSecondHalf = "&srcdb=999999"
 
 let secondsInADay = 86400
 let millisecondInADay = 1000 * secondsInADay;
-let checksPerDay = 8;
+let checksPerDay = 24;
 let timeBetweenChecks = millisecondInADay/checksPerDay;
 
 var app = express();
@@ -104,7 +104,7 @@ async function lookForClass(){
     for await (const line of rl) {
     // Each line in input.txt will be successively available here as `line`.
         //initializeFile(line);
-       updateDataForClass(line,wait);
+      updateDataForClass(line,wait);
        wait += 10000;
        
 
@@ -161,7 +161,7 @@ function updateDataForClass(line,wait){
 }
 function updateFile(seatsLeft,crn){
     
-    var totalPrompt = currentTime + '=' + String(seatsLeft) + '\n';
+    var totalPrompt = currentTime + ',' + String(seatsLeft) + '\n';
     fs.appendFile(path.join(__dirname,'/resultsFolder',String(crn)+".csv"),totalPrompt,
     {},(err)=>{
        if(err){
